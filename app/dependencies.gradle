@@ -1,0 +1,46 @@
+def dependencyGroup(Closure closure) {
+    closure.delegate = dependencies
+    return closure
+}
+
+def core = dependencyGroup {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+def test = dependencyGroup {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+
+def ui = dependencyGroup {
+    def supportVersion = "26.1.0"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support.constraint:constraint-layout:1.0.2"
+    implementation "com.android.support:design:$supportVersion"
+}
+
+def network = dependencyGroup {
+    implementation "com.squareup.moshi:moshi-adapters:1.5.0"
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+}
+
+def playServicesAndFirebase = dependencyGroup {
+    def playServiceVersion = "11.6.0"
+    implementation "com.google.android.gms:play-services-base:$playServiceVersion"
+    implementation "com.google.android.gms:play-services-auth:$playServiceVersion"
+    implementation "com.google.firebase:firebase-crash:$playServiceVersion"
+}
+
+def kotlin = dependencyGroup {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+
+dependencies {
+    core()
+    test()
+    kotlin()
+    ui()
+    network()
+    playServicesAndFirebase()
+}
